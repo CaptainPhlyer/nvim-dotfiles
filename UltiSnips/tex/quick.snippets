@@ -1,0 +1,25 @@
+global !p
+def math():
+	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+def comment(): 
+	return vim.eval('vimtex#syntax#in_comment()') == '1'
+def env(name):
+	[x,y] = vim.eval("vimtex#env#is_inside('" + name + "')") 
+	return x != '0' and y != '0'
+endglobal
+
+snippet probsp "Probability Space" w
+$(\Omega, \mathcal{F}, \mathbb{P})$ 
+endsnippet
+
+snippet meassp "Measure Space" w
+$(X, \mathcal{F}, \mu)$
+endsnippet
+
+snippet mablesp "MeasureABLE space" w
+$(X, \mathcal{F})$
+endsnippet
+
+snippet sigalg "sigma algebra" w
+$\sigma$-algebra
+endsnippet
