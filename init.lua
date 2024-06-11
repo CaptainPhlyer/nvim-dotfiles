@@ -1,5 +1,6 @@
 vim.cmd 'filetype plugin indent on'
-
+-- python virtual environment
+vim.g.python3_host_prog = "~/venvs/nvim/bin/python"
 
 require('plugins')
 require('keybinds')

@@ -1,56 +1,73 @@
-return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-	--other packages go here
-	--vimtex
-	use 'lervag/vimtex'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup({
+  "folke/lazy.nvim",
+  "folke/neodev.nvim",
+  "neovim/nvim-lspconfig",
+  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  {"williamboman/mason.nvim", dependencies = "williamboman/mason-lspconfig.nvim"},
+  {
+	"nvim-tree/nvim-tree.lua",
+	version = "*",
+	lazy = false,
+	dependencies = {
+	  "nvim-tree/nvim-web-devicons",
+	},
+	config = function()
+	  require("nvim-tree").setup {}
+	end,
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+  "ellisonleao/gruvbox.nvim",
+  "SirVer/ultisnips",
+  {
+	'hrsh7th/nvim-cmp',
+	commit = "b356f2c",
+	pin = true,
+  },
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-omni',
+  'hrsh7th/cmp-path',
+  'quangnguyen30192/cmp-nvim-ultisnips',
+  {
+	"NeogitOrg/neogit",
+	dependencies = {
+	  "nvim-lua/plenary.nvim",         -- required
+	  "sindrets/diffview.nvim",        -- optional - Diff integration
 
-	use ({
-		"neovim/nvim-lspconfig",
-	})
-
-	use {
-		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'
-	}
-
-	use {
-	"williamboman/mason.nvim",
-	run = ":MasonUpdate", -- :MasonUpdate updates registry contents
-	requires = {"williamboman/mason-lspconfig.nvim",}
-	}
-
-	use {
-		'nvim-tree/nvim-tree.lua',
-		requires = {
-			'nvim-tree/nvim-web-devicons', -- optional
-		},
-		config = function()
-			require("nvim-tree").setup {}
-		end
-	}
-
-	use {
-		'nvim-lualine/lualine.nvim',
-		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-	}
-	use { "ellisonleao/gruvbox.nvim" }
-	use { "SirVer/ultisnips" }
-	use {'hrsh7th/nvim-cmp'}
-	use {'hrsh7th/cmp-nvim-lsp'}
-	use {'hrsh7th/cmp-omni'}
-	use {'hrsh7th/cmp-path'}
-	use {'quangnguyen30192/cmp-nvim-ultisnips'}
-	use {
-	  'tanvirtin/vgit.nvim',
-		requires = {
-		'nvim-lua/plenary.nvim'
-	  },
-	  config= function()
-		require('vgit').setup{}
-	  end
-	}
-	use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-		require("toggleterm").setup()
-	end}
-	use {"codethread/qmk.nvim"}
-end)
+	  -- Only one of these is needed, not both.
+	  "nvim-telescope/telescope.nvim", -- optional
+	},
+	config = true
+  },
+  {'akinsho/toggleterm.nvim', version = "*", config = true},
+  {
+	"codethread/qmk.nvim",
+	config = function()
+	   ---@type qmk.UserConfig
+        local conf = {
+            name = 'LAYOUT',
+            layout = {
+                '_ x x x x x x _ _ _ _ _ x x x x x x',
+                '_ x x x x x x _ _ _ _ _ x x x x x x',
+                '_ x x x x x x x x _ x x x x x x x x',
+                '_ _ _ _ x x x x x _ x x x x x _ _ _',
+            }
+        }
+        require('qmk').setup(conf)
+	  end,
+  }
+})

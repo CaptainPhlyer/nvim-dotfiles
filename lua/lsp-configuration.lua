@@ -6,10 +6,9 @@ require("cmp-config")
 local capabilities = require"cmp_nvim_lsp".default_capabilities()
 
 local on_attach = function(_,_)
-	local map = vim.api.nvim_set_keymap
+    local map = vim.keymap.set
 	map('n', '<leader>rn', vim.lsp.buf.rename, {})
 	map('n', '<leader>ca', vim.lsp.buf.code_action, {})
-
 	map('n', 'gd', vim.lsp.buf.definition,{})
 	map('n', 'gi', vim.lsp.buf.implementation,{})
 end
