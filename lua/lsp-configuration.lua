@@ -13,19 +13,19 @@ local on_attach = function(_,_)
 	map('n', 'gi', vim.lsp.buf.implementation,{})
 end
 
-require("lspconfig").lua_ls.setup {
+vim.lsp.config('lua_ls', {
 	on_attach = on_attach,
 	capabilities = capabilities
-}
-require("lspconfig").pylsp.setup {
+})
+vim.lsp.config('pylsp', {
 	on_attach = on_attach,
 	capabilities = capabilities
-}
-require("lspconfig").bashls.setup {
+})
+vim.lsp.config('bashls', {
 	on_attach = on_attach,
 	capabilities = capabilities
-}
-require("lspconfig").clangd.setup {
+})
+vim.lsp.config('clangd', {
   on_attach = on_attach,
   capabilities = capabilities
-}
+})

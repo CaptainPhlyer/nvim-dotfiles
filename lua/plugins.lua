@@ -31,7 +31,7 @@ require("lazy").setup({
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' }
   },
-  "ellisonleao/gruvbox.nvim",
+  --{"ellisonleao/gruvbox.nvim", priority=1000, config=true},
   "SirVer/ultisnips",
   {
 	'hrsh7th/nvim-cmp',
@@ -53,7 +53,9 @@ require("lazy").setup({
 	},
 	config = true
   },
-  {'akinsho/toggleterm.nvim', version = "*", config = true},
+  {
+	'akinsho/toggleterm.nvim', version = "*", config=true,
+  },
   {
 	"codethread/qmk.nvim",
 	config = function()
@@ -69,5 +71,12 @@ require("lazy").setup({
         }
         require('qmk').setup(conf)
 	  end,
-  }
+  },
+  { "oonamo/ef-themes.nvim" },
+  {
+    "nvim-neorg/neorg",
+    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+    version = "*", -- Pin Neorg to the latest stable release
+    config = true,
+  },
 })

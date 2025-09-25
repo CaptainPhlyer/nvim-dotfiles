@@ -1,4 +1,5 @@
 require("gruvbox").setup({
+  terminal_colors = true,
   undercurl = true,
   underline = true,
   bold = true,
@@ -20,6 +21,5 @@ require("gruvbox").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
-vim.o.background = "dark"
 vim.cmd [[colorscheme gruvbox]]
 
