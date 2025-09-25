@@ -14,7 +14,17 @@ require("lazy").setup({
   "folke/lazy.nvim",
   "folke/neodev.nvim",
   "neovim/nvim-lspconfig",
-  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  {
+	"nvim-treesitter/nvim-treesitter", 
+	build = ":TSUpdate",
+	opts = {
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+        highlight = { enable = true },
+      },
+      config = function(_, opts)
+        require("nvim-treesitter.configs").setup(opts)
+      end,
+  },
   {"williamboman/mason.nvim", dependencies = "williamboman/mason-lspconfig.nvim"},
   {
 	"nvim-tree/nvim-tree.lua",
@@ -74,9 +84,33 @@ require("lazy").setup({
   },
   { "oonamo/ef-themes.nvim" },
   {
+	"vhyrro/luarocks.nvim",
+	priority = 1000,
+	config = true,
+  },
+  {
     "nvim-neorg/neorg",
+	dependencies = {"luarocks.nvim","plenary.nvim"},
     lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
     version = "*", -- Pin Neorg to the latest stable release
-    config = true,
+	config = function()
+        require("neorg").setup {
+          load = {
+            ["core.defaults"] = {},
+            ["core.concealer"] = {},
+            ["core.dirman"] = {
+              config = {
+                workspaces = {
+                  notes = "~/notes",
+                },
+                default_workspace = "notes",
+              },
+            },
+          },
+        }
+  
+        vim.wo.foldlevel = 99
+        vim.wo.conceallevel = 2
+      end,
   },
 })
